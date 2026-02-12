@@ -17,14 +17,11 @@
 ## 📌 Citation
 If you find this work useful for your research, please consider citing it. 😊
 ```bibtex
-@misc{yue2025reqflowrectifiedquaternionflow,
-      title={ReQFlow: Rectified Quaternion Flow for Efficient and High-Quality Protein Backbone Generation}, 
-      author={Angxiao Yue and Zichong Wang and Hongteng Xu},
-      year={2025},
-      eprint={2502.14637},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG},
-      url={https://arxiv.org/abs/2502.14637}, 
+@inproceedings{yue2025reqflow,
+  title={ReQFlow: Rectified Quaternion Flow for Efficient and High-Quality Protein Backbone Generation},
+  author={Yue, Angxiao and Wang, Zichong and Xu, Hongteng},
+  booktitle={Forty-second International Conference on Machine Learning},
+  year={2025}
 }
 ```
 
