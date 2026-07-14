@@ -5,8 +5,8 @@ defaults:
 
 inference:
   task: unconditional
-  ckpt_path: ./rg-vfm-reqflow/rg-vfm-reqflow.ckpt # path to ckpts (e.g., ..../xxx.ckpt)
-  ckpt_path: ./rg-vfm-qflow/rg-vfm-reqflow.ckpt # path to ckpts (e.g., ..../xxx.ckpt)
+  ckpt_path: ./rg-vfm-reqflow-ckpt/rg-vfm-reqflow.ckpt # RG-VFM ReQFlow
+  # ckpt_path: ./rg-vfm-qflow-ckpt/rg-vfm-qflow.ckpt   # RG-VFM QFlow (switch when needed)
   inference_subdir: ./inference_outputs/run_${now:%Y-%m-%d}_${now:%H-%M-%S} 
   pmpnn_dir: ./ProteinMPNN
   pt_hub_dir: ./.cache/torch/ # path to ESMfold
