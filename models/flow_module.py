@@ -121,10 +121,10 @@ class FlowModule(LightningModule):
         gt_rotmats_1 = noisy_batch['rotmats_1']
         gt_rotquats_1 = noisy_batch['rotquats_1']
         rotquats_t = noisy_batch['rotquats_t']
-        gt_rot_quat_vf = so3_utils.calc_quat_wt_qt_q1(
-            rotquats_t, gt_rotquats_1.type(torch.float32))
-        if torch.any(torch.isnan(gt_rot_quat_vf)):
-            raise ValueError('NaN encountered in gt_rot_quat_vf')
+        #gt_rot_quat_vf = so3_utils.calc_quat_wt_qt_q1(
+        #    rotquats_t, gt_rotquats_1.type(torch.float32))
+        #if torch.any(torch.isnan(gt_rot_quat_vf)):
+        #    raise ValueError('NaN encountered in gt_rot_quat_vf')
 
         gt_bb_atoms = all_atom.to_atom37(gt_trans_1, gt_rotmats_1)[:, :, :3]
 
@@ -143,10 +143,10 @@ class FlowModule(LightningModule):
         pred_rotquats_1 = model_output['pred_rotquats']
         # pred_rots_quat_vf = so3_utils.calc_quat_wt_qt_q1( #* Exp schedule
         #     rotquats_t, pred_rotquats_1) * 10 * torch.exp( -so3_t[..., None] * 10) 
-        pred_rots_quat_vf = so3_utils.calc_quat_wt_qt_q1(
-            rotquats_t, pred_rotquats_1)
-        if torch.any(torch.isnan(pred_rots_quat_vf)):
-            raise ValueError('NaN encountered in pred_rots_quat_vf')
+        #pred_rots_quat_vf = so3_utils.calc_quat_wt_qt_q1(
+        #    rotquats_t, pred_rotquats_1)
+        #if torch.any(torch.isnan(pred_rots_quat_vf)):
+        #    raise ValueError('NaN encountered in pred_rots_quat_vf')
 
         # Backbone atom loss
         pred_bb_atoms = all_atom.to_atom37(pred_trans_1, pred_rotmats_1)[:, :, :3]
@@ -167,9 +167,14 @@ class FlowModule(LightningModule):
         trans_loss = torch.clamp(trans_loss, max=5)
 
         # Quat VF loss
-        rots_quats_vf_error = (gt_rot_quat_vf - pred_rots_quat_vf) / so3_norm_scale
+        rots_quats_vf_dist = so3_utils.calc_quat_wt_qt_q1(
+            gt_rotquats_1.type(torch.float32), pred_rotquats_1)
+        if torch.any(torch.isnan(rots_quats_vf_dist)):
+            raise ValueError('NaN encountered in rots_quats_vf_dist')
+        rots_quats_vf_dist = rots_quats_vf_dist / so3_norm_scale
+        #rots_quats_vf_error = (gt_rot_quat_vf - pred_rots_quat_vf) / so3_norm_scale
         rots_quats_vf_loss = training_cfg.rotation_loss_weights * torch.sum(
-            rots_quats_vf_error ** 2 * loss_mask[..., None],
+            rots_quats_vf_dist ** 2 * loss_mask[..., None],
             dim=(-1, -2)
         ) / loss_denom
 

@@ -37,7 +37,9 @@ test_tube_logs/
 test_tube_data/
 datasets/
 model_weights/
-tests/save_dir  
+tests/save_dir
+rg-vfm-qflow-ckpt/
+rg-vfm-reqflow-ckpt/
 tests/tests_tt_dir/
 processed/
 raw/
